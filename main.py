@@ -1,4 +1,11 @@
-import random
+from random import choice
+from os import system
+from sys import platform
+
+def notify(title, text):
+    system("""
+              osascript -e 'display notification "{}" with title "{}"'
+              """.format(text, title))
 
 lower_alphabet = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -30,8 +37,13 @@ if __name__ == '__main__':
         print('Only int allowed')
 
     while (length):
-        a = random.choice(mixed)
+        a = choice(mixed)
         password += str(a)
         length -= 1
     print(password)
+    with open("pass.txt", "w") as f:
+        f.write(password)
+        
+    if platform == "darwin":
+        notify("Password has been generated", "Your password has been saved in pass.txt file")
 
